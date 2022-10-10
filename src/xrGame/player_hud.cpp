@@ -33,15 +33,6 @@ Fvector _wpn_root_pos;
 #define ORIGIN_OFFSET_OLD     -0.05f    // Фактор влияния инерции на положение ствола (чем меньше, тем маштабней инерция)
 #define ORIGIN_OFFSET_AIM_OLD -0.03f    // (Для прицеливания)
 
-float CalcMotionSpeed(const shared_str& anim_name)
-{
-
-	if(!IsGameTypeSingle() && (anim_name=="anm_show" || anim_name=="anm_hide") )
-		return 2.0f;
-	else
-		return 1.0f;
-}
-
 player_hud_motion* player_hud_motion_container::find_motion(const shared_str& name)
 {
 	xr_vector<player_hud_motion>::iterator it	= m_anims.begin();
@@ -377,10 +368,8 @@ void attachable_hud_item::load(const shared_str& sect_name)
 	m_measures.load				(sect_name, m_model);
 }
 
-u32 attachable_hud_item::anim_play(const shared_str& anm_name_b, BOOL bMixIn, const CMotionDef*& md, u8& rnd_idx, bool wpn_mix)
+u32 attachable_hud_item::anim_play(const shared_str& anm_name_b, BOOL bMixIn, const CMotionDef*& md, u8& rnd_idx, bool wpn_mix, float speed)
 {
-	float speed				= CalcMotionSpeed(anm_name_b);
-
 	R_ASSERT				(strstr(anm_name_b.c_str(),"anm_")==anm_name_b.c_str());
 	string256				anim_name_r;
 	bool is_16x9			= UI().is_widescreen();
@@ -574,9 +563,8 @@ void player_hud::render_hud()
 
 #include "../xrEngine/motion.h"
 
-u32 player_hud::motion_length(const shared_str& anim_name, const shared_str& hud_name, const CMotionDef*& md)
+u32 player_hud::motion_length(const shared_str& anim_name, const shared_str& hud_name, const CMotionDef*& md, float speed)
 {
-	float speed						= CalcMotionSpeed(anim_name);
 	attachable_hud_item* pi			= create_hud_item(hud_name);
 	player_hud_motion*	pm			= pi->m_hand_motions.find_motion(anim_name);
 	if (!pm || !pm->m_animations.size())

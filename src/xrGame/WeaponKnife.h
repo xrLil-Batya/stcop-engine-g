@@ -8,6 +8,10 @@ class CWeaponKnife: public CWeapon {
 private:
 	typedef CWeapon inherited;
 
+private:
+	u16 m_uLastActiveSlot;
+	bool m_bIsQuickAttack;
+
 protected:
 
 	virtual void		switch2_Idle				();
@@ -65,6 +69,9 @@ public:
 #ifdef DEBUG
 	virtual void		OnRender						();
 #endif
+
+public:
+	void StartQuickAttack(u16 currentSlot);
 
 private:
 	typedef buffer_vector<Fvector>						shot_targets_t;

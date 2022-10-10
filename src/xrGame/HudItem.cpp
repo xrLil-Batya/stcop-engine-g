@@ -282,9 +282,9 @@ void CHudItem::on_a_hud_attach()
 	}
 }
 
-u32 CHudItem::PlayHUDMotion(const shared_str& M, BOOL bMixIn, CHudItem*  W, u32 state, bool bWpn)
+u32 CHudItem::PlayHUDMotion(const shared_str& M, BOOL bMixIn, CHudItem*  W, u32 state, bool bWpn, float speed)
 {
-	u32 anim_time					= PlayHUDMotion_noCB(M, bMixIn, bWpn);
+	u32 anim_time					= PlayHUDMotion_noCB(M, bMixIn, bWpn, speed);
 	if (anim_time>0)
 	{
 		m_bStopAtEndAnimIsRunning	= true;
@@ -312,7 +312,7 @@ bool CHudItem::isHUDAnimationExist(LPCSTR anim_name)
 			return true;
 	}
 	else // Third person
-		if (g_player_hud->motion_length(anim_name, HudSection(), m_current_motion_def) > 100)
+		if (g_player_hud->motion_length(anim_name, HudSection(), m_current_motion_def, 1.f) > 100)
 			return true;
 #ifdef DEBUG
 	Msg("~ [WARNING] ------ Animation [%s] does not exist in [%s]", anim_name, HudSection().c_str());
@@ -321,7 +321,7 @@ bool CHudItem::isHUDAnimationExist(LPCSTR anim_name)
 }
 
 
-u32 CHudItem::PlayHUDMotion_noCB(const shared_str& motion_name, BOOL bMixIn, bool bWpn)
+u32 CHudItem::PlayHUDMotion_noCB(const shared_str& motion_name, BOOL bMixIn, bool bWpn, float speed)
 {
 	m_current_motion					= motion_name;
 
@@ -336,11 +336,11 @@ u32 CHudItem::PlayHUDMotion_noCB(const shared_str& motion_name, BOOL bMixIn, boo
 	}
 	if( HudItemData() )
 	{
-		return HudItemData()->anim_play		(motion_name, bMixIn, m_current_motion_def, m_started_rnd_anim_idx, bWpn);
+		return HudItemData()->anim_play		(motion_name, bMixIn, m_current_motion_def, m_started_rnd_anim_idx, bWpn, speed);
 	}else
 	{
 		m_started_rnd_anim_idx				= 0;
-		return g_player_hud->motion_length	(motion_name, HudSection(), m_current_motion_def );
+		return g_player_hud->motion_length	(motion_name, HudSection(), m_current_motion_def, speed);
 	}
 }
 

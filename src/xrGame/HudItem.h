@@ -125,9 +125,9 @@ public:
 
 	virtual	void				UpdateXForm			()						= 0;
 
-	u32							PlayHUDMotion				(const shared_str& M, BOOL bMixIn, CHudItem*  W, u32 state, bool bWpn = true);
+	u32							PlayHUDMotion				(const shared_str& M, BOOL bMixIn, CHudItem*  W, u32 state, bool bWpn = true, float speed = 1.0f);
 	bool						isHUDAnimationExist	(LPCSTR anim_name);
-	u32							PlayHUDMotion_noCB	(const shared_str& M, BOOL bMixIn, bool bWpn = true);
+	u32							PlayHUDMotion_noCB	(const shared_str& M, BOOL bMixIn, bool bWpn = true, float speed = 1.0f);
 	void						StopCurrentAnimWithoutCallback();
 
 	//Mortan: новые параметры для системы аддонов

@@ -26,6 +26,7 @@ enum	EGameActions
 	kCAM_ZOOM_OUT,
 						
 	kTORCH,
+	kKNIFE_QUICK,
 	kNIGHT_VISION,
 	kDETECTOR,
 	kWPN_1,

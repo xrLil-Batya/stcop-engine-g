@@ -33,6 +33,7 @@
 #include "clsid_game.h"
 #include "hudmanager.h"
 #include "Weapon.h"
+#include "WeaponKnife.h"
 
 extern u32 hud_adj_mode;
 extern u32 hud_adj_item_idx;
@@ -107,6 +108,12 @@ void CActor::IR_OnKeyboardPress(int cmd)
 #endif //DEBUG
 	switch(cmd)
 	{
+		case kKNIFE_QUICK:
+		{
+			if (CWeaponKnife* pKnife = smart_cast<CWeaponKnife*>(inventory().ItemFromSlot(KNIFE_SLOT)))
+				pKnife->StartQuickAttack(inventory().GetActiveSlot());
+		} break;
+
 	case kJUMP:		
 		{
 			mstate_wishful |= mcJump;
